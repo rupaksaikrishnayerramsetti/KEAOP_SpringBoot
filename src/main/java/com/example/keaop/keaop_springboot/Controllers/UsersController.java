@@ -1,7 +1,9 @@
 package com.example.keaop.keaop_springboot.Controllers;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.keaop.keaop_springboot.Helpers.EmailService;
 import com.example.keaop.keaop_springboot.Helpers.EmailTemplate;
@@ -72,19 +74,25 @@ public class UsersController {
     }
 
     @GetMapping("/fetchUserDetails")
-    public Optional<Users> FetchUserDetails(@RequestHeader Map<String, String> requestHeader) {
+    public List<Users> fetchUserDetails(@RequestHeader Map<String, String> requestHeader) {
         String token = requestHeader.get("authorization");
-        if(token!=null && !token.isEmpty()) {
+        if (token != null && !token.isEmpty()) {
             try {
                 Map<String, String> decodedData = JwtService.decodeToken(token);
-                Optional<Users> user = urepo.findById(decodedData.get("userId"));
-                return user;
+                Optional<Users> userOptional = urepo.findById(decodedData.get("userId"));
+                if (userOptional.isPresent()) {
+                    List<Users> userList = new ArrayList<>();
+                    userList.add(userOptional.get());
+                    return userList;
+                } else {
+                    return new ArrayList<>();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-                return Optional.empty();
+                return new ArrayList<>();
             }
         }
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     @PostMapping("/updateUserData")
