@@ -7,8 +7,15 @@ public class Notes {
     private String user_id;
     private String title;
     private String value;
+    private String _id;
     public String getUser_id() {
         return user_id;
+    }
+    public String get_id() {
+        return _id;
+    }
+    public void set_id(String _id) {
+        this._id = _id;
     }
     public void setUser_id(String user_id) {
         this.user_id = user_id;
