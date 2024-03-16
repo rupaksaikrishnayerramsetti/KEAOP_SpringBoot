@@ -8,6 +8,7 @@ public class Alerts {
     private String title;
     private String date;
     private String time;
+    private String _id;
     public String getUser_id() {
         return user_id;
     }
@@ -35,5 +36,11 @@ public class Alerts {
     @Override
     public String toString() {
         return "Alerts [user_id=" + user_id + ", title=" + title + ", date=" + date + ", time=" + time + "]";
+    }
+    public String get_id() {
+        return _id;
+    }
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }
