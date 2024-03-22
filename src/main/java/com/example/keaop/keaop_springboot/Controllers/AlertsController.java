@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import com.example.keaop.keaop_springboot.Model.Alerts;
 import com.example.keaop.keaop_springboot.Repository.AlertsRepository;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class AlertsController {
     private final AlertsRepository arepo;
     private final JWTService js;
@@ -91,7 +93,7 @@ public class AlertsController {
     
 
     @GetMapping("/fetchAllAlerts")
-    public List<Alerts> fetchAllAlerts(@RequestHeader Map<String, String> requestHeader) {
+    public List<Alerts> FetchAllAlerts(@RequestHeader Map<String, String> requestHeader) {
         try {
             String token = requestHeader.get("authorization");
             Map<String, String> decodedData = js.decodeToken(token);
@@ -105,7 +107,7 @@ public class AlertsController {
     }
 
     @DeleteMapping("/deleteAlert")
-    public Boolean deleteAlert(@RequestHeader Map<String, String> requestHeader) {
+    public Boolean DeleteAlert(@RequestHeader Map<String, String> requestHeader) {
         try {
             String token = requestHeader.get("authorization");
             Map<String, String> decodedData = js.decodeToken(token);
