@@ -14,9 +14,11 @@ import com.example.keaop.keaop_springboot.Repository.UsersRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UsersController {
     private final UsersRepository urepo;
     private final PasswordService ps;
@@ -74,25 +76,23 @@ public class UsersController {
     }
 
     @GetMapping("/fetchUserDetails")
-    public List<Users> fetchUserDetails(@RequestHeader Map<String, String> requestHeader) {
+    public Users fetchUserDetails(@RequestHeader Map<String, String> requestHeader) {
         String token = requestHeader.get("authorization");
         if (token != null && !token.isEmpty()) {
             try {
                 Map<String, String> decodedData = JwtService.decodeToken(token);
                 Optional<Users> userOptional = urepo.findById(decodedData.get("userId"));
+                Users user = new Users();
                 if (userOptional.isPresent()) {
-                    List<Users> userList = new ArrayList<>();
-                    userList.add(userOptional.get());
-                    return userList;
-                } else {
-                    return new ArrayList<>();
+                    user =  userOptional.get();
                 }
+                return user;
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ArrayList<>();
+                return new Users();
             }
         }
-        return new ArrayList<>();
+        return new Users();
     }
 
     @PostMapping("/updateUserData")
