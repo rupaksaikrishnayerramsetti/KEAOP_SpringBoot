@@ -44,10 +44,7 @@ public class DateAndTimeUtil {
     
             // Parse the time and adjust it to 24-hour format
             LocalTime localTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("hh:mm a"));
-            if (time.contains("PM")) {
-                localTime = localTime.plusHours(12);
-            }
-    
+            
             // Combine date and time into a LocalDateTime object
             LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
     
